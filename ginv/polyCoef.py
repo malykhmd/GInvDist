@@ -1,6 +1,7 @@
 import sympy
 #from sympy import S, Basic, gcd, igcd_lehmer, Integer
 from sympy import S, Integer, gcd, cancel, expand
+from coefs import Coef
 if __name__ == '__main__':
   from monom import *
 else:
@@ -9,35 +10,19 @@ else:
   except:
     from monom import *
 
-class Poly(list):
+class PolyCoef(list):
   def __init__(self, *args):
-    #if args:
-      #assert len(args) <= 2
-      #if len(args) == 2:
-        #assert isinstance(args[0], Monom) and \
-          #(isinstance(args[1], int) or isinstance(args[1], Basic)) and args[1]
-        #self.append([args[0], S(args[1])])
-      #else:
-        #if isinstance(args[0], int) or isinstance(args[0], Basic):
-          #assert args[0]
-          #self.append([Monom(), args[0]])
-        #elif isinstance(args[0], Monom):
-          #self.append([args[0], 1])
-        #else:
-          #assert isinstance(args[0], Poly)
-          #for m, k in args[0]:
-            #self.append([m, k])
     if args:
       assert len(args) == 1
       if isinstance(args[0], Monom):
         self.append([args[0], Integer(1)])
-      elif isinstance(args[0], Poly):
+      elif isinstance(args[0], PolyCoef):
         for m, k in args[0]:
           self.append([m, k])
       else:
         assert args[0]
         if isinstance(args[0], int):
-          self.append([Monom(), Integer(args[0])])
+          self.append([Monom(), Coef(args[0])])
         else:
           self.append([Monom(), args[0]])
     assert self.assertValid()

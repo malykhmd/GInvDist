@@ -44,7 +44,7 @@ class Q(list):
           w.poly.NFhead(invdiv)
           if w.poly:
             w.update()
-            w.poly.pp()
+            w.poly.simplify()
             if not r:
               d = w.degree()
             elif d > w.degree():
@@ -54,7 +54,7 @@ class Q(list):
             r.append(w)
     for i in r:
       i.poly.NFtail(invdiv)
-      i.poly.pp()
+      i.poly.simplify()
     return r
 
   def autoReduce(self, q):
@@ -86,7 +86,7 @@ class Q(list):
       if w.degree() != d:
         self.push(w)
       else:
-        w.poly.pp()
+        w.poly.simplify()
         res.append(w)
 
     return res
@@ -116,7 +116,7 @@ def ginvBlockLow(pset, invdiv, level=0):
       if tp == 1:
         for r in res:
           r.poly.NFtail(invdiv)
-          r.poly.pp()
+          r.poly.simplify()
       if level > 0:
         if tp == 0:
           print(", ".join(f"{w.lm}" for w in res))
@@ -126,7 +126,7 @@ def ginvBlockLow(pset, invdiv, level=0):
 
       for w in invdiv:
         w.poly.NFtail(invdiv)
-        w.poly.pp()
+        w.poly.simplify()
 
   return time.time() - t, q.crit1, q.crit2
 

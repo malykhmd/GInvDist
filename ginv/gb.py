@@ -9,7 +9,7 @@ else:
   except:
     from poly import *
 
-class GB(list):
+class GB(list): 
   def __init__(self):
     super().__init__()
 
@@ -29,7 +29,7 @@ class GB(list):
           p1, p2 = p2, p1
         self.B.append((m, p1, p2))
 
-  def __crit2(self, m, p1, p2):
+  def __crit2(self, m, p1, p2): # проверка на инволютивность?
     for g in self:
       if m.divisible(g.lm()) and id(p1) != id(g) and id(p2) != id(g):
         id1, id2 = (id(g), id(p1)) if id(g) > id(p1) else (id(p1), id(g))
@@ -51,7 +51,7 @@ class GB(list):
         self.F.append(self.pop(i))
       else:
         self[i].NFtail(self)
-        self[i].pp()
+        self[i].simplify()
         self.__addS(p, self[i])
         i += 1
     assert self.assertValid()
@@ -76,7 +76,7 @@ class GB(list):
         if not F[i]:
           del F[i]
         else:
-          F[i].pp()
+          F[i].simplify()
           if not p or F[i].lm().cmp(p.lm()) < 0:
             p = F[i]
           i += 1
@@ -92,7 +92,7 @@ class GB(list):
             p.NFhead(self)
             #print("p.NFhead(self)", p)
             if p:
-              p.pp()
+              p.simplify()
               F.append(p)
           del self.B[0]
       if p:
@@ -102,7 +102,7 @@ class GB(list):
           break
         F.remove(p)
         p.NFtail(self)
-        p.pp()
+        p.simplify()
         #print("len(F) =", len(self.F), " p.lm() =", p.lm()
         self.__insert(p)
     del self.B
@@ -124,7 +124,7 @@ class GB(list):
         if not F[i]: # Change 
           del F[i] # Change 
         else:
-          F[i].pp() # Change 
+          F[i].simplify() # Change 
           if not p or F[i].lm().cmp(p.lm()) < 0: # Change 
             p = F[i] # Change 
           i += 1
@@ -136,7 +136,7 @@ class GB(list):
           break
         F.remove(p) # Change 
         p.NFtail(self)
-        p.pp()
+        p.simplify()
         #print("len(F) =", len(self.F), " p.lm() =", p.lm()
         self.__insert(p)
       else:
@@ -149,7 +149,7 @@ class GB(list):
             p = Poly.S(p1, p2)
             p.NFhead(self)
             if p:
-              p.pp()
+              p.simplify()
               F.append(p) # Change 
           del self.B[0]
         
@@ -160,9 +160,11 @@ class GB(list):
   def algorithm2(self, F, output=False):
     assert Monom.cmp == Monom.TOPdeglex or Monom.cmp == Monom.POTdeglex
     super(GB, self).__init__()
-    self.time, self.crit1, self.crit2 = time.time(), 0, 0,
+    self.time, self.crit1, self.crit2 = time.time(), 0, 0
     self.F, self.B = F, []
+
     while F or self.B:
+      
       self.B.sort()
       while self.B:
         m, p1, p2 = self.B[0]
@@ -170,9 +172,10 @@ class GB(list):
            m == p1.lm().lcm(p2.lm()) and not self.__crit2(m, p1, p2):
           p = Poly.S(p1, p2)
           if p:
-            p.pp()
-            F.append(p)
+            p.simplify()
+            F.append(p) 
         del self.B[0]
+      
 
       p, i = None, 0
       while i < len(F):
@@ -184,8 +187,10 @@ class GB(list):
         if not F[i]:
           del F[i]
         else:
-          F[i].pp()
+          F[i].simplify()
+          if p and output:  print(F[i].lm(), ' ? ', p.lm(), ' < 0', (not p or F[i].lm().cmp(p.lm()) < 0))
           if not p or F[i].lm().cmp(p.lm()) < 0:
+            if output:  print('p = ', F[i])
             p = F[i]
           i += 1
 
@@ -196,7 +201,7 @@ class GB(list):
           break
         F.remove(p)
         p.NFtail(self)
-        p.pp()
+        p.simplify()
         if output:
           print("len(F) =", len(F), " p.lm() =", p.lm())
         self.__insert(p)
@@ -239,6 +244,7 @@ if __name__ == '__main__':
   Monom.variables = variables.copy()#['x1', 'x2', 'x3', 'x4', 'x5']
   Monom.zero = Monom(0 for v in Monom.variables)
   Monom.cmp = Monom.TOPdeglex
+
   for i in range(len(Monom.variables)):
     p = Poly()
     p.append([Monom(0 if l != i else 1 for l in range(len(Monom.variables))), 1])
@@ -246,11 +252,11 @@ if __name__ == '__main__':
 
   G = GB()
   G.algorithm2([
-x1 + x2 + x3 + x4 + x5,
-x1*x2 + x1*x5 + x2*x3 + x3*x4 + x4*x5,
-x1*x2*x3 + x1*x2*x5 + x1*x4*x5 + x2*x3*x4 + x3*x4*x5,
-x1*x2*x3*x4 + x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5,
-x1*x2*x3*x4*x5 - 1
+    x1 + x2 + x3 + x4 + x5,
+    x1*x2 + x1*x5 + x2*x3 + x3*x4 + x4*x5,
+    x1*x2*x3 + x1*x2*x5 + x1*x4*x5 + x2*x3*x4 + x3*x4*x5,
+    x1*x2*x3*x4 + x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5,
+    x1*x2*x3*x4*x5 - 1
   ])
   print(G)
   print(", ".join(str(g.lm()) for g in G))

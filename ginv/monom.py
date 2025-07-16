@@ -143,7 +143,7 @@ class Monom(tuple):
   def __bool__(self):
     return self.__pos >= 0 or sum(self) > 0
 
-  def prolong(self, var):
+  def prolong(self, var): # вернуть моном, домноженный на переменную
     assert 0 <= var < len(self)
     r = Monom(d + (1 if i == var else 0) for i, d in enumerate(self))
     r.__pos = self.__pos

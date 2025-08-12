@@ -11,7 +11,7 @@ import os
 VERY_QUICK = ['quadfor2', 'sparse5', 'hunecke', 'solotarev', 'chandra4', 'quadgrid', 'lorentz', 'liu', 'hemmecke', 'boon', 'chandra5', 'caprasse', 'issac97', 'hcyclic5', 'redcyc5', 'cyclic5', 'extcyc4', 'chemequ', 'uteshev_bikker', 'chandra6', 'geneig']
 QUICK = ['chemequs', 'vermeer', 'camera1s', 'reimer4', 'redeco7', 'tangents', 'cassou', 'butcher', 'eco7', 'cohn2', 'dessin1', 'des18_3', 'hcyclic6', 'noon5', 'katsura6', 'cyclic6', 'butcher8', 'redcyc6', 'cpdm5', 'extcyc5']
 MEDIUM = ['noon6', 'reimer5', 'kotsireas', 'assur44']
-
+ADD = ['s9_1', 'rose', 'speer']
 
 def init(variables, order = Monom.TOPdeglex):
   #variables = ['x1', 'x2', 'x3', 'x4', 'x5']
@@ -133,7 +133,7 @@ def test_with_memory(test):
   mem_usage = memory_usage(f)
   res[-1]['avr memory'] = sum(mem_usage) / len(mem_usage)
   res[-1]['max memory'] = max(mem_usage)
-  print(res[-1])
+  print(res[-1])    
   with open('resultsM/' + test + '.json', 'w') as file:
     json.dump(res[-1], file)
   print(test, 'complete!')
@@ -219,9 +219,10 @@ def reverse_order(eq):
 # -> TOP term of position 
 
 if __name__ == '__main__':
-  test_select(VERY_QUICK)
-  test_select(QUICK)
+  #test_select(VERY_QUICK)
+  #test_select(QUICK)
   #test_select(MEDIUM)
+  test_select(ADD)
   #tests = os.listdir('json')
   #tests.remove(VERY_QUICK)
   #tests.remove(QUICK)

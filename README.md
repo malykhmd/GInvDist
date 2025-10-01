@@ -1,4 +1,5 @@
 # GInvDist
+```
 >>> from ginv.monom import *
 >>> from ginv.poly import *
 >>> from ginv.gb import *
@@ -19,3 +20,4 @@
 y**2*-1 + x*4 + y + -6,
 x*y + x*2 + y + -2,
 x**2 + x*-2 + y*-1
+```

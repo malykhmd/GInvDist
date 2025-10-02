@@ -6,7 +6,7 @@
 >>> variables = ['x' ,'y']
 >>> Monom.init(variables)
 >>> Monom.variables = variables.copy()
->>> Monom.zero = Monom(0 for _ in Monom.variables)
+>>> Monom.cmp = Monom.TOPdeglex
 >>> p_x = Poly()
 >>> p_x.append([Monom(0), 1])
 >>> p_y = Poly()
